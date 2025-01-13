@@ -1,0 +1,12 @@
+# macOS 시스템 파일
+.DS_Store
+
+# Node.js 프로젝트의 경우
+node_modules/
+
+# Python 프로젝트의 경우
+__pycache__/
+*.pyc
+
+# 환경설정 파일
+.env
