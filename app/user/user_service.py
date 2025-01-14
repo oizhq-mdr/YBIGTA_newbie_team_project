@@ -10,7 +10,7 @@ class UserService:
         user = None
         return user
         
-    def regiser_user(self, new_user: User) -> User:
+    def register_user(self, new_user: User) -> User:
         ## TODO
         new_user = None
         return new_user

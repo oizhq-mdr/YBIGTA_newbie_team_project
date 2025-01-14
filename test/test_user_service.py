@@ -35,7 +35,7 @@ def test_login_user_not_found(user_service, mock_user_repository):
     mock_user_repository.get_user_by_email.return_value = None
     user_login = UserLogin(email="nonexistent@example.com", password="password123")
     
-    with pytest.raises(ValueError, match="User not found"):
+    with pytest.raises(ValueError, match="User not Found."):
         user_service.login(user_login)
 
 
@@ -53,7 +53,7 @@ def test_register_user_success(user_service, mock_user_repository, test_user):
     mock_user_repository.get_user_by_email.return_value = None
     mock_user_repository.save_user.return_value = test_user
     
-    result = user_service.regiser_user(test_user)
+    result = user_service.register_user(test_user)
     
     assert result.email == test_user.email
     assert result.username == test_user.username
@@ -66,7 +66,7 @@ def test_register_user_already_exists(user_service, mock_user_repository, test_u
     mock_user_repository.get_user_by_email.return_value = test_user
     
     with pytest.raises(ValueError, match="User already Exists."):
-        user_service.regiser_user(test_user)
+        user_service.register_user(test_user)
 
 
 def test_delete_user_success(user_service, mock_user_repository, test_user):
@@ -107,5 +107,5 @@ def test_update_password_user_not_found(user_service, mock_user_repository):
     mock_user_repository.get_user_by_email.return_value = None
     user_update = UserUpdate(email="nonexistent@example.com", new_password="newpassword123")
     
-    with pytest.raises(ValueError, match="User not Found"):
+    with pytest.raises(ValueError, match="User not Found."):
         user_service.update_user_pwd(user_update)
