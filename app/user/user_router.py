@@ -18,7 +18,31 @@ def login_user(user_login: UserLogin, service: UserService = Depends(get_user_se
 
 @user.post("/register", response_model=BaseResponse[User], status_code=status.HTTP_201_CREATED)
 def register_user(user: User, service: UserService = Depends(get_user_service)) -> BaseResponse[User]:
-    ## TODO
+@user.post("/register", response_model=BaseResponse[User], status_code=status.HTTP_201_CREATED)
+def register_user(user: User, service: UserService = Depends(get_user_service)) -> BaseResponse[User]:
+    '''
+    새 유저 등록 (회원가입) Endpoint
+    
+    Args:
+        user: 회원가입 요청 데이터를 포함한 User 객체.
+            - email (str): 유저 이메일
+            - password (str): 유저 비밀번호
+            - username (str): 유저 이름
+        
+        service: UserService 객체
+
+    Raises ValueError:
+        HTTPException(400): 이메일이 이미 등록된 경우
+
+    Returns:
+        BaseResponse[User]: 등록 성공 시 새 유저 정보와 메시지를 포함한 응답 객체 반환
+    '''
+
+    try:
+        user = service.register_user(user)
+        return BaseResponse(status = 'success', data = user, message= ' User registeration success.')
+    except ValueError as e:
+        raise HTTPException(status_code= 400, detail = str(e))    ## TODO
     return None
 
 
