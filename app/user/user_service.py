@@ -70,7 +70,7 @@ class UserService:
 
     def update_user_pwd(self, user_update: UserUpdate) -> User:
         """
-        사용자 비밀번호를 업데이트합니다.
+        사용자의 비밀번호를 업데이트합니다.
 
         Args:
             user_update (UserUpdate): 업데이트 요청 데이터를 포함한 객체
