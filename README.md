@@ -18,6 +18,7 @@
 ### Merge 완료
 ![조요셉 merge 완료](<merged_kulusevski.png>)
 ![이재우 merge 완료](<merged_oizhq-mdr.png>)
+![이준찬 merge 완료](<merged_gamma4638.png>)
 
 ## Project Architecture
 
