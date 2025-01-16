@@ -24,8 +24,23 @@ def register_user(user: User, service: UserService = Depends(get_user_service)) 
 
 @user.delete("/delete", response_model=BaseResponse[User], status_code=status.HTTP_200_OK)
 def delete_user(user_delete_request: UserDeleteRequest, service: UserService = Depends(get_user_service)) -> BaseResponse[User]:
-    ## TODO
-    return None
+    """사용자를 시스템에서 삭제합니다
+
+    Args:
+        user_delete_request (UserDeleteRequest): 삭제할 사용자의 이메일이 포함된 요청
+        service (UserService, optional): UserService 인스턴스
+
+    Raises:
+        HTTPException: 사용자를 찾을 수 없는 경우 404 에러 발생
+
+    Returns:
+        BaseResponse[User]: 삭제된 사용자 정보를 포함한 응답
+    """
+    try:
+        deleted_user = service.delete_user(user_delete_request.email)
+        return BaseResponse(status="success", data=deleted_user, message="User Deleted Successfully.")
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @user.put("/update-password", response_model=BaseResponse[User], status_code=status.HTTP_200_OK)

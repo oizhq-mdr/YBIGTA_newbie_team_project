@@ -19,9 +19,21 @@ class UserService:
         return new_user
 
     def delete_user(self, email: str) -> User:
-        ## TODO        
-        deleted_user = None
-        return deleted_user
+        """이메일로 사용자를 삭제합니다.
+
+        Args:
+            email (str): 삭제할 사용자의 이메일
+
+        Raises:
+            ValueError: 사용자를 찾을 수 없는 경우 에러 발생
+
+        Returns:
+            User: 삭제된 사용자 정보
+        """
+        user = self.repo.get_user_by_email(email)
+        if not user:
+            raise ValueError("User not Found.")
+        return self.repo.delete_user(user)
 
     def update_user_pwd(self, user_update: UserUpdate) -> User:
         ## TODO
