@@ -5,9 +5,9 @@
 안녕하세요! YBIGTA 26기 교육세션 3조입니다.
 
 ### 팀원 소개
-- 이준찬: 산업공학과 19학번
-- 조요셉: 응용통계학과 21학번
-- 이재우: 언론홍보영상학부 20학번
+- 이준찬: gamma4638, 산업공학과 19학번
+- 조요셉: kulusevski, 응용통계학과 21학번
+- 이재우: oizhq-mdr, 언론홍보영상학부 20학번
 
 ## Attachments
 
@@ -16,6 +16,7 @@
 ![push rejected](push_rejected.png)
 
 ### Merge 완료
+![조요셉 merge 완료](<merged_kulusevski.png>)
 ![이재우 merge 완료](<merged_oizhq-mdr.png>)
 
 ## Project Architecture
