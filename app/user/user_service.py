@@ -25,6 +25,9 @@ class UserService:
 
 
 
+
+
+
     def update_user_pwd(self, user_update: UserUpdate) -> User:
         user = self.repo.get_user_by_email(user_update.email)
         if not user:
