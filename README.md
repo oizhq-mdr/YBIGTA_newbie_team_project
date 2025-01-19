@@ -12,13 +12,13 @@
 ## Attachments
 
 ### Branch Protection 관련
-![branch protection](branch_protection.png)
-![push rejected](push_rejected.png)
+![branch protection](github/branch_protection.png)
+![push rejected](github/push_rejected.png)
 
 ### Merge 완료
-![조요셉 merge 완료](<merged_kulusevski.png>)
-![이재우 merge 완료](<merged_oizhq-mdr.png>)
-![이준찬 merge 완료](<merged_gamma4638.png>)
+![조요셉 merge 완료](<github/merged_kulusevski.png>)
+![이재우 merge 완료](<github/merged_oizhq-mdr.png>)
+![이준찬 merge 완료](<github/merged_gamma4638.png>)
 
 ## Project Architecture
 
