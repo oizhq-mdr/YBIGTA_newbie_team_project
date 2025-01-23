@@ -16,14 +16,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 import requests
+from typing import Any
+from selenium.webdriver.remote.webelement import WebElement
 
 class SsgCrawler(BaseCrawler):
-    def __init__(self, output_dir: str):
+    def __init__(self, output_dir: str) -> None:
         super().__init__(output_dir)
         self.base_url = 'https://www.ssg.com/item/itemView.ssg?itemId=0000008333648&siteNo=6001&salestrNo=2037'
         self.reviews: list[tuple[int, str, str]] = []  # reviews 리스트 초기화
         
-    def start_browser(self):
+    def start_browser(self) -> webdriver.Chrome:
         # chromedriver 경로 설정
         CHROMEDRIVER_PATH = '/Users/jaewoolee/chromedriver-mac-arm64'
         os.environ["PATH"] += os.pathsep + CHROMEDRIVER_PATH
@@ -40,20 +42,17 @@ class SsgCrawler(BaseCrawler):
         # User-Agent 설정
         chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36')
 
-        driver = webdriver.Chrome(options=chrome_options)
+        self.driver = webdriver.Chrome(options=chrome_options)
 
         # 브라우저 열기
-        try:
-            driver.get(self.base_url)
-            return driver
-        except Exception as e:
-            print(f"Error starting browser: {e}")
-            return None
+        self.driver.get(self.base_url)
+        return self.driver
+
 
     def scrape_reviews(self):
         driver = self.start_browser()
         if not driver:
-            return []
+            return None
 
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         
@@ -74,19 +73,19 @@ class SsgCrawler(BaseCrawler):
                     
                     soup = BeautifulSoup(driver.page_source, 'html.parser')
                     data_rows = soup.find_all('li', class_='rvw_expansion_panel v2')
-                    current_page: int = int(soup.find('div', class_ = 'rvw_paging').find('strong').text)
+                    current_page = int(soup.find('div', class_ = 'rvw_paging').find('strong').text)
 
                     for data in data_rows:
-                        rating: int = int(data.find('em').text) * 2
-                        comment: str = data.find('p', class_ = 'rvw_item_text').text
-                        date: str = data.find('div', class_ = 'rvw_item_label rvw_item_date').text
+                        rating = int(data.find('em').text) * 2
+                        comment = data.find('p', class_ = 'rvw_item_text').text
+                        date = data.find('div', class_ = 'rvw_item_label rvw_item_date').text
                         date = date.replace('.', '-')
                         self.reviews.append((rating, comment, date))
                         print(f"rating: {rating}, comment: {comment}, date: {date}")
                         
 
                     # current_page: int = int(soup.find('div', class_ = 'rvw_paging').find('strong').text)
-                    next_page: int = current_page + 1
+                    next_page = current_page + 1
                     # 다음 페이지 버튼 찾기
                     try:
                         if current_page == 10:
