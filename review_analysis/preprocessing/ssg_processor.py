@@ -9,10 +9,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer  # 
 
 class SsgProcessor(BaseDataProcessor):
     def __init__(self, input_path: str, output_path: str):
+        '''
+        Args:
+            input_path: 크롤링 결과를 저장한 디렉토리 경로
+            output_path: 전처리 결과를 저장할 디렉토리 경로
+        '''
         super().__init__(input_path, output_path)
         self.processed_df = None
 
     def preprocess(self):
+        """
+        전처리 함수
+        """
         # 데이터 로드
         self.df = pd.read_csv(self.input_path, index_col=0)
 
@@ -74,6 +82,9 @@ class SsgProcessor(BaseDataProcessor):
 
 
     def feature_engineering(self):
+        """
+        FE 함수
+        """
         self.df['word_count'] = self.df['comment'].apply(lambda x: len(x.split()))
         self.df['text_length_category'] = self.df['word_count'].apply(
             lambda count: 'short' if count <= 1 else (
@@ -99,5 +110,8 @@ class SsgProcessor(BaseDataProcessor):
 
 
     def save_to_database(self):
+        """
+        전처리 결과를 csv 파일로 저장
+        """
         self.processed_df.to_csv(os.path.join(self.output_dir, 'preprocessed_reviews_ssg.csv'))
         
