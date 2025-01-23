@@ -30,7 +30,6 @@ class CoupangCrawler(BaseCrawler):
             "&vendorItemId=3058658009&q=%EC%8B%A0%EB%9D%BC%EB%A9%B4"
             "&itemsCount=36&searchId=13424d858927815&rank=0&searchRank=0&isAddedCart="
         )
-        # driver_path 제거
         self.driver = None
         self.all_reviews : list[dict] = []
         
