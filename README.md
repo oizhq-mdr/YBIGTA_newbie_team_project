@@ -1,8 +1,4 @@
-데이터 소개
 
-실행 방법
-
-plot 디렉토리 사진들에 대한 설명
 
 # 주제
 
@@ -27,26 +23,27 @@ plot 디렉토리 사진들에 대한 설명
 
 루트 디렉토리에서 다음의 명령어를 실행하면 각 웹사이트에 대한 크롤러가 순차적으로 모두 실행됩니다. `/database` 경로에 크롤링 결과가 저장됩니다. 
 
-
-하나의 웹사이트에 대한 크롤러를 실행하기 위해서는 다음의 명령어를 실행합니다. 
-
 ```
-python -m review_analysis.crawling.main -o database -c Ssg
-```
-```
-python -m review_analysis.crawling.main -o database -c Homeplus
-```
-```
-python -m review_analysis.crawling.main -o database -c Coupang
+python -m review_analysis.crawling.main -o database -a
 ```
 
+개별 크롤러를 실행하려면 다음의 명령어를 실행해야 합니다. 
+
+```
+python -m review_analysis.crawling.main -o database -c {크롤러 이름 eg. Ssg, Homeplus, Coupang}
+```
 
 ## 전처리 및 FE
 
+전처리 및 FE가 완료된 파일을 확인하기 위해서는 루트 디렉토리에서 아래의 명령어를 실행해야 합니다. 
 
 ```
-python -m review_analysis.preprocessing.main -a
+python -m review_analysis.preprocessing.main -o database -a
 ```
+
+결과는 `/database`에 저장됩니다.
+
+# 전처리 및 파생변수 생성
 
 전처리는 크게 다음과 같은 과정을 거쳤습니다
 1. 리뷰/별점/작성일자 중 하나라도 공란이면 삭제

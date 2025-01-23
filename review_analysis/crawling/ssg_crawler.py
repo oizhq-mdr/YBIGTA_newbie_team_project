@@ -21,15 +21,20 @@ from selenium.webdriver.remote.webelement import WebElement
 
 class SsgCrawler(BaseCrawler):
     def __init__(self, output_dir: str) -> None:
+        '''
+        Args:
+            output_dir: 크롤링 결과를 저장할 디렉토리 경로
+        '''
         super().__init__(output_dir)
         self.base_url = 'https://www.ssg.com/item/itemView.ssg?itemId=0000008333648&siteNo=6001&salestrNo=2037'
         self.reviews: list[tuple[int, str, str]] = []  # reviews 리스트 초기화
         
     def start_browser(self) -> webdriver.Chrome:
-        # chromedriver 경로 설정
-        CHROMEDRIVER_PATH = '/Users/jaewoolee/chromedriver-mac-arm64'
-        os.environ["PATH"] += os.pathsep + CHROMEDRIVER_PATH
-
+        """
+        크롬 드라이버를 실행하고 목표 페이지에 접속한 뒤, 리뷰가 있는 '상품리뷰' 클릭하기
+        
+        클릭 후 페이지 로딩은 2초간 대기
+        """
         # 브라우저 옵션 설정
         chrome_options = Options()
 
@@ -42,14 +47,17 @@ class SsgCrawler(BaseCrawler):
         # User-Agent 설정
         chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36')
 
+        # ChromeDriver 자동 관리 방식 사용
         self.driver = webdriver.Chrome(options=chrome_options)
 
         # 브라우저 열기
         self.driver.get(self.base_url)
         return self.driver
 
-
     def scrape_reviews(self):
+        """
+        리뷰 크롤링 함수
+        """
         driver = self.start_browser()
         if not driver:
             return None
@@ -126,5 +134,8 @@ class SsgCrawler(BaseCrawler):
         return None
 
     def save_to_database(self):
+        """
+        크롤링 결과를 csv 파일로 저장
+        """
         df = pd.DataFrame(self.reviews, columns=['rating', 'comment', 'date'])
         df.to_csv(os.path.join(self.output_dir, 'reviews_ssg.csv'), index=True)
