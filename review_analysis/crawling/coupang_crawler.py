@@ -30,9 +30,7 @@ class CoupangCrawler(BaseCrawler):
             "&vendorItemId=3058658009&q=%EC%8B%A0%EB%9D%BC%EB%A9%B4"
             "&itemsCount=36&searchId=13424d858927815&rank=0&searchRank=0&isAddedCart="
         )
-        self.driver_path = r"C:\Users\user\.cache\selenium\chromedriver\win64\131.0.6778.264\chromedriver.exe"
-
-        # WebDriver 및 크롤링된 결과를 저장할 멤버 변수
+        # driver_path 제거
         self.driver = None
         self.all_reviews : list[dict] = []
         
@@ -53,12 +51,9 @@ class CoupangCrawler(BaseCrawler):
             "AppleWebKit/537.36 (KHTML, like Gecko) "
             "Chrome/91.0.4472.124 Safari/537.36"
         )
-        # Chrome 97 이상 버전부터는 executable_path 대신 driver_path를 options로 설정 가능
-        # 하지만 여기서는 기존 로직과 동일하게 유지
-        self.driver = webdriver.Chrome(
-            executable_path=self.driver_path,
-            options=options
-        )
+        
+        # ChromeDriver 자동 관리로 변경
+        self.driver = webdriver.Chrome(options=options)
     
     def scrape_reviews(self):
         """
