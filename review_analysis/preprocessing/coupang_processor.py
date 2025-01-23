@@ -55,8 +55,9 @@ class CoupangProcessor(BaseDataProcessor):
         print("Preprocessing completed.")
         
 
+        # 단어 수 계산을 위한 새로운 컬럼 추가
+        self.df['word_count'] = self.df['review'].apply(lambda x: len(x.split()))
 
-    
     def feature_engineering(self):
         """
         특징 엔지니어링
