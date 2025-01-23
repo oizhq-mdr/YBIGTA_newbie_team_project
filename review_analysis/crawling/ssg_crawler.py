@@ -128,4 +128,4 @@ class SsgCrawler(BaseCrawler):
 
     def save_to_database(self):
         df = pd.DataFrame(self.reviews, columns=['rating', 'comment', 'date'])
-        df.to_csv(os.path.join(self.output_dir, 'ssg_reviews.csv'), index=True)
+        df.to_csv(os.path.join(self.output_dir, 'reviews_ssg.csv'), index=True)
