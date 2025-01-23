@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
+from typing import Optional
 import time
 import os
 import csv
@@ -19,8 +20,8 @@ class HomeplusCrawler(BaseCrawler):
         '''
         super().__init__(os.path.join(os.getcwd(), 'database'))
         self.base_url = 'https://mfront.homeplus.co.kr/item?itemNo=120074651&storeType=HYPER&storeId&optNo'
-        self.driver: WebDriver = None
-        self.reviews_data = []
+        self.driver: Optional[WebDriver] = None
+        self.reviews_data : list[str] = []
 
     def start_browser(self):
         """
