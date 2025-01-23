@@ -26,18 +26,21 @@ class SsgProcessor(BaseDataProcessor):
 
         print(len(self.df))
 
-        # 날짜 str에서 datetime으로 변환
-        self.df['date'] = pd.to_datetime(self.df['date'])
+        # 결측치 처리 - assign 메서드를 사용하여 안전하게 처리
+        self.df = self.df.assign(
+            rating=self.df['rating'].fillna('점수 없음'),
+            comment=self.df['comment'].fillna('리뷰 없음'),
+            date=self.df['date'].fillna('날짜 없음')
+        )
+
+        # 날짜 str에서 datetime으로 변환 - 특수문자 처리 추가
+        self.df['date'] = pd.to_datetime(self.df['date'], format='mixed', errors='coerce')
+        # errors='coerce'는 변환할 수 없는 값을 NaT(Not a Time)으로 변환합니다
 
         # comment 내 whitespace 제거
         self.df['comment'] = self.df['comment'].str.replace('\n', ' ') 
         self.df['comment'] = self.df['comment'].str.strip()
         
-        # 결측치 처리
-        self.df['rating'].fillna('점수 없음', inplace=True)
-        self.df['comment'].fillna('리뷰 없음', inplace=True)
-        self.df['date'].fillna('날짜 없음', inplace=True)
-
         # 특수문자 및 이모지 제거
         self.df['comment'] = self.df['comment'].apply(lambda x: emoji.replace_emoji(x, ''))  # 이모지 제거
         self.df['comment'] = self.df['comment'].apply(lambda x: re.sub(r'[^가-힣a-zA-Z0-9\s]', '', x))  # 특수문자 제거
