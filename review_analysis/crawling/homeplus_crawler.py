@@ -30,10 +30,7 @@ class HomeplusCrawler(BaseCrawler):
         클릭 후 페이지 로딩은 2초간 대기
         """
         
-        from selenium.webdriver.chrome.service import Service
-        service = Service("/Users/joseph/Desktop/chromedriver-mac-arm64/chromedriver")
-        
-        self.driver = webdriver.Chrome(service=service)
+        self.driver = webdriver.Chrome()  # selenium-manager가 자동으로 관리
         self.driver.get(self.base_url)
         time.sleep(3)
 
