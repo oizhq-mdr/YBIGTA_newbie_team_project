@@ -26,10 +26,6 @@ class SsgCrawler(BaseCrawler):
         self.reviews: list[tuple[int, str, str]] = []  # reviews 리스트 초기화
         
     def start_browser(self) -> webdriver.Chrome:
-        # chromedriver 경로 설정
-        CHROMEDRIVER_PATH = '/Users/jaewoolee/chromedriver-mac-arm64'
-        os.environ["PATH"] += os.pathsep + CHROMEDRIVER_PATH
-
         # 브라우저 옵션 설정
         chrome_options = Options()
 
@@ -42,6 +38,7 @@ class SsgCrawler(BaseCrawler):
         # User-Agent 설정
         chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36')
 
+        # ChromeDriver 자동 관리 방식 사용
         self.driver = webdriver.Chrome(options=chrome_options)
 
         # 브라우저 열기

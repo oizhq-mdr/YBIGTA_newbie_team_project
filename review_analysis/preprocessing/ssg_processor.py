@@ -74,7 +74,28 @@ class SsgProcessor(BaseDataProcessor):
 
 
     def feature_engineering(self):
-        return None
+        self.df['word_count'] = self.df['comment'].apply(lambda x: len(x.split()))
+        self.df['text_length_category'] = self.df['word_count'].apply(
+            lambda count: 'short' if count <= 1 else (
+                'middle' if 2 <= count <= 4 else 'long'
+            )
+        )
+
+        self.df['rating_length_category'] = self.df.apply(
+            lambda row: f"{int(row['rating'])}-{row['text_length_category']}", axis=1
+        )
+
+        vectorizer: Any = TfidfVectorizer(max_features=500)
+        tfidf_matrix = vectorizer.fit_transform(self.df['comment'])
+        tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), 
+                                columns=vectorizer.get_feature_names_out())
+
+        self.df = pd.concat([self.df.reset_index(drop=True), 
+                               tfidf_df.reset_index(drop=True)], axis=1)
+
+        self.df = self.df[self.df['word_count'] > 0]
+
+        print("Feature engineering completed.")
 
 
     def save_to_database(self):
