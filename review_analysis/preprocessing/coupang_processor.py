@@ -38,11 +38,11 @@ class CoupangProcessor(BaseDataProcessor):
         """
         self.df.dropna(subset=['review', 'rating', 'date'], inplace=True)
 
-        self.df = self.df[(self.df['score'] >= 1) & (self.df['rating'] <= 5)]
+        self.df = self.df[(self.df['rating'] >= 1) & (self.df['rating'] <= 5)]
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
         self.df = self.df[self.df['date'].notnull()]
 
-        self.df['content'] = self.df['content'].astype(str).apply(
+        self.df['review'] = self.df['review'].astype(str).apply(
             lambda content: ' '.join([
                 token.form
                 for token in kiwi.tokenize(
