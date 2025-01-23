@@ -68,35 +68,47 @@ python -m review_analysis.preprocessing.main -o database -a
 ## 쿠팡
 
 ![coupang_output](https://github.com/user-attachments/assets/43c07cf2-f653-4574-9c0a-2c211cb1a58d)
+
 전처리 이후 작성일자에 따른 리뷰 갯수를 나타낸다
 - 최신 리뷰에 비중을 두었긴 하나, 23년 이전 데이터도 조금씩 수집되었다. 그래프 상으로는 23년도를 기준으로 데이터가 거의 절단된 것을 볼 수 있다.
 - 특이하게도 2025년에 리뷰 갯수가 폭증한 것을 볼 수 있다.
-  
+
+
 ![coupang_lda](https://github.com/user-attachments/assets/f1ded55c-1117-4ff0-b40f-1b2e55da0963)
+
 LDA 토픽모델링 결과
 - 후술할 두 사이트에 비해 전반적으로 키워드들이 고른 분포를 지닌다.
+
 
 
 ## 홈플러스
 
 ![homeplus_output](https://github.com/user-attachments/assets/31d1bc1a-7c60-4489-b241-de16bdb39215)
+
 전처리 이후 작성일자에 따른 리뷰 갯수를 나타낸다
 - 홈플러스는 최신 리뷰 기준으로 1,500개를 크롤링했기에, 작성일자가 25.01.01부터 25.01.21까지 최근 3주의 데이터만 수집된 것을 볼 수 있다
 - 2-3일과 19-20일 즈음에 리뷰가 제일 많이 작성되었고, 미세하게 쌍봉형 분포의 경향을 띈다.
 
+
 ![homeplus_lda](https://github.com/user-attachments/assets/38902ce8-40b1-43cc-bdab-099af89b75ed)
+
 LDA 토픽모델링 결과
 - '저렴하다' '행사'와 같은 금액적인 부분과 관련한 단어들이 높은 순위를 차지하고 있다.
 
 ## SSG
 
 ![ssg_output](https://github.com/user-attachments/assets/706fd2f3-cbb4-4611-958a-29ee4c99b08d)
+
 전처리 이후 작성일자에 따른 리뷰 갯수를 나타낸다
 - 쿠팡과 마찬가지로 23,000개를 수집했으나 24년도 하반기-25년의 리뷰가 대다수를 차지하고 있으며, 24년도 상반기부터 데이터가 거의 절단된 걸 볼 수 있다
 
+
 ![ssg_lda](https://github.com/user-attachments/assets/01bff19f-69ec-4e6c-8f94-c0974409e026)
+
 LDA 토픽 모델링 결과
 - '맛있다' '먹다' '좋아하다' '최고' 등 맛과 관련해 긍정적인 뉘앙스를 지닌 단어가 높은 순위를 자치하고 있는 것을 볼 수 있다.
+
+
 
 ## 비교분석
 빈도 히스토그램
