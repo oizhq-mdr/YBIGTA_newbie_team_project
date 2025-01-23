@@ -1,11 +1,14 @@
 from review_analysis.preprocessing.base_processor import BaseDataProcessor
 import pandas as pd
+
 import matplotlib.pyplot as plt
 import seaborn as sns  # type: ignore
+
+from kiwipiepy import Kiwi # type: ignore
 import re
 from typing import Any
 from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
-
+kiwi: Any = Kiwi()
 class CoupangProcessor(BaseDataProcessor):
     def __init__(self, input_path: str, output_path: str):
 
@@ -21,29 +24,36 @@ class CoupangProcessor(BaseDataProcessor):
         self.df = pd.read_csv(self.input_path)
 
     def preprocess(self):
-        # 'date' 열을 datetime 형식으로 변환
-        self.df['date'] = pd.to_datetime(self.df['date'])
-
-        # 'review' 열의 결측치 제거
-        self.df['review'].fillna("리뷰 없음", inplace=True)
-
-        # 'review_length' 열 추가
-        self.df['review_length'] = self.df['review'].apply(lambda x: len(str(x)))
-        threshold = self.df['review_length'].quantile(0.95)
-
-        # 상위 5% 이상치 제거
-        self.df = self.df[self.df['review_length'] <= threshold]
-
-        self.df['review'] = self.df['review'].apply(lambda x: len(x.split()))
+        """
+        데이터 전처리 method
         
-        # 'review' 열의 텍스트 전처리
-        self.df['review'] = self.df['review'].astype(str)  # NaN 또는 None 값 처리
+        1. 결측치 처리:
+           content, score, date 중 하나라도 공백이면 해당 행 제거
+        2. 별점 이상치 처리:
+            - 1-5 사이가 아니면 제거
+        3. 작성일자열 datetime 변환
+        4. 텍스트 전처리:
+            - 명사만 추출
+            - 특수문자 제거
+        """
+        self.df.dropna(subset=['review', 'rating', 'date'], inplace=True)
 
-        # 한글과 공백을 제외한 모든 문자 제거
-        self.df['review'] = self.df['review'].apply(lambda x: re.sub(r"[^가-힣\s]", "", x))
+        self.df = self.df[(self.df['score'] >= 1) & (self.df['rating'] <= 5)]
+        self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
+        self.df = self.df[self.df['date'].notnull()]
 
-        # 불필요한 공백 제거
-        self.df['review'] = self.df['review'].apply(lambda x: re.sub(r"\s+", " ", x).strip())
+        self.df['content'] = self.df['content'].astype(str).apply(
+            lambda content: ' '.join([
+                token.form
+                for token in kiwi.tokenize(
+                    re.sub(r'[^\s\w\d]', " ", content)
+                )
+                if 'NN' in token.tag  
+            ])
+        )
+
+        print("Preprocessing completed.")
+        
 
 
     
@@ -64,11 +74,11 @@ class CoupangProcessor(BaseDataProcessor):
         )
 
         self.df['rating_length_category'] = self.df.apply(
-            lambda row: f"{int(row['score'])}-{row['text_length_category']}", axis=1
+            lambda row: f"{int(row['rating'])}-{row['text_length_category']}", axis=1
         )
 
         vectorizer: Any = TfidfVectorizer(max_features=500)
-        tfidf_matrix = vectorizer.fit_transform(self.df['content'])
+        tfidf_matrix = vectorizer.fit_transform(self.df['review'])
         tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), 
                                 columns=vectorizer.get_feature_names_out())
 
