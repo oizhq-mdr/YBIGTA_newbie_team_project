@@ -3,8 +3,8 @@ import pandas as pd
 import os
 import emoji
 import re
-from kiwipiepy import Kiwi
-from sklearn.feature_extraction.text import TfidfVectorizer
+import kiwipiepy  # type: ignore
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer  # type: ignore
 # from konlpy.tag import Okt
 
 class SsgProcessor(BaseDataProcessor):
@@ -42,7 +42,7 @@ class SsgProcessor(BaseDataProcessor):
         
         
         # 토큰화
-        kiwi = Kiwi()
+        kiwi = kiwipiepy.Kiwi()
         self.df['comment'] = self.df['comment'].astype(str).apply(
             lambda content: ' '.join([
                 token.form
