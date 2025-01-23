@@ -1,8 +1,4 @@
-데이터 소개
 
-실행 방법
-
-plot 디렉토리 사진들에 대한 설명
 
 # 주제
 
@@ -34,7 +30,7 @@ python -m review_analysis.crawling.main -o database -a
 개별 크롤러를 실행하려면 다음의 명령어를 실행해야 합니다. 
 
 ```
-python -m review_analysis.crawling.crawling_main -o database -c {크롤러 이름 eg. Ssg, Homeplus, Coupang}
+python -m review_analysis.crawling.main -o database -c {크롤러 이름 eg. Ssg, Homeplus, Coupang}
 ```
 
 ## 전처리 및 FE
@@ -45,11 +41,6 @@ python -m review_analysis.crawling.crawling_main -o database -c {크롤러 이�
 python -m review_analysis.preprocessing.main -o database -a
 ```
 
-개별 사이트의 크롤링 결과에 대한 전처리 및 FE를 실행하려면 다음의 명령어를 실행해야 합니다. 
-
-```
-python -m review_analysis.preprocessing.main -o database -c {파일 이름 이름 eg. reviews_ssg, reviews_homeplus, reviews_coupang}
-```
 
 결과는 `/database` 경로에 저장됩니다. 
 
