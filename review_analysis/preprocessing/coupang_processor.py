@@ -56,26 +56,26 @@ class ExampleProcessor(BaseDataProcessor):
         - TF-IDF 벡터화
         """
 
-        self.data['word_count'] = self.data['content'].apply(lambda x: len(x.split()))
-        self.data['text_length_category'] = self.data['word_count'].apply(
+        self.df['word_count'] = self.df['review'].apply(lambda x: len(x.split()))
+        self.df['text_length_category'] = self.df['word_count'].apply(
             lambda count: 'short' if count <= 1 else (
                 'middle' if 2 <= count <= 4 else 'long'
             )
         )
 
-        self.data['rating_length_category'] = self.data.apply(
+        self.df['rating_length_category'] = self.df.apply(
             lambda row: f"{int(row['score'])}-{row['text_length_category']}", axis=1
         )
 
         vectorizer: Any = TfidfVectorizer(max_features=500)
-        tfidf_matrix = vectorizer.fit_transform(self.data['content'])
+        tfidf_matrix = vectorizer.fit_transform(self.df['content'])
         tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), 
                                 columns=vectorizer.get_feature_names_out())
 
-        self.data = pd.concat([self.data.reset_index(drop=True), 
+        self.df = pd.concat([self.df.reset_index(drop=True), 
                                tfidf_df.reset_index(drop=True)], axis=1)
 
-        self.data = self.data[self.data['word_count'] > 0]
+        self.df = self.df[self.df['word_count'] > 0]
 
         print("Feature engineering completed.")
 
