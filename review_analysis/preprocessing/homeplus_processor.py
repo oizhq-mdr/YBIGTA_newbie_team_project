@@ -3,10 +3,11 @@ import pandas as pd
 import numpy as np
 import re
 from kiwipiepy import Kiwi
+from typing import Any
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Kiwi 초기화
-kiwi = Kiwi()
+kiwi: Any = Kiwi()
 
 class HomeplusProcessor(BaseDataProcessor):
     def __init__(self, input_path: str, output_dir: str):
@@ -69,7 +70,7 @@ class HomeplusProcessor(BaseDataProcessor):
             lambda row: f"{int(row['score'])}-{row['text_length_category']}", axis=1
         )
 
-        vectorizer = TfidfVectorizer(max_features=500)
+        vectorizer: Any = TfidfVectorizer(max_features=500)
         tfidf_matrix = vectorizer.fit_transform(self.data['content'])
         tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), 
                                 columns=vectorizer.get_feature_names_out())
