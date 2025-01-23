@@ -2,9 +2,9 @@ from review_analysis.preprocessing.base_processor import BaseDataProcessor
 import pandas as pd
 import numpy as np
 import re
-from kiwipiepy import Kiwi
+from kiwipiepy import Kiwi # type: ignore
 from typing import Any
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
 
 # Kiwi 초기화
 kiwi: Any = Kiwi()
