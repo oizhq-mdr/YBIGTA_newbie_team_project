@@ -13,6 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from selenium.webdriver.chrome.options import Options
+import os
 
 class CoupangCrawler(BaseCrawler):
     def __init__(self, output_dir: str):
@@ -181,7 +182,7 @@ class CoupangCrawler(BaseCrawler):
         """
         df_reviews = pd.DataFrame(self.all_reviews, columns=['review', 'rating', 'date'])
 df_reviews.to_csv(
-    os.path.join(self.output_dir, 'coupang_review.csv'),
+    os.path.join(self.output_dir, 'reviews_coupang.csv'),
     index=False,
     encoding='utf-8-sig'  # Excel 호환성을 위해 BOM 포함
 )

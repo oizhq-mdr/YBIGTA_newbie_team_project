@@ -6,7 +6,7 @@ import re
 from typing import Any
 from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
 
-class ExampleProcessor(BaseDataProcessor):
+class CoupangProcessor(BaseDataProcessor):
     def __init__(self, input_path: str, output_path: str):
 
         """
