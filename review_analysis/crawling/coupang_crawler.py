@@ -180,8 +180,8 @@ class CoupangCrawler(BaseCrawler):
         크롤링한 리뷰 데이터를 CSV 파일로 저장
         """
         df_reviews = pd.DataFrame(self.all_reviews, columns=['review', 'rating', 'date'])
-        df_reviews.to_csv(
-            f'{self.output_dir}/coupang_review.csv', 
-            index=False, 
-            encoding='utf-8-sig'  # Excel 호환성을 위해 BOM 포함
-        )
+df_reviews.to_csv(
+    os.path.join(self.output_dir, 'coupang_review.csv'),
+    index=False,
+    encoding='utf-8-sig'  # Excel 호환성을 위해 BOM 포함
+)
