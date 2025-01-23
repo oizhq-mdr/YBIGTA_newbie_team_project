@@ -30,7 +30,6 @@ class CoupangCrawler(BaseCrawler):
             "&vendorItemId=3058658009&q=%EC%8B%A0%EB%9D%BC%EB%A9%B4"
             "&itemsCount=36&searchId=13424d858927815&rank=0&searchRank=0&isAddedCart="
         )
-        # driver_path 제거
         self.driver = None
         self.all_reviews : list[dict] = []
         
@@ -51,6 +50,8 @@ class CoupangCrawler(BaseCrawler):
             "AppleWebKit/537.36 (KHTML, like Gecko) "
             "Chrome/91.0.4472.124 Safari/537.36"
         )
+        options.add_argument('--lang=ko_KR')
+        options.add_argument('--charset=utf-8')
         
         # ChromeDriver 자동 관리로 변경
         self.driver = webdriver.Chrome(options=options)
@@ -110,7 +111,7 @@ class CoupangCrawler(BaseCrawler):
 
                             # 리뷰 텍스트
                             text_div = article_element.find_element(By.XPATH, "./div[4]/div")
-                            raw_text = text_div.text.strip()
+                            raw_text = text_div.text.strip().encode('utf-8').decode('utf-8')
                             review_text = raw_text.replace("\n", " ")
 
                             # 별점
@@ -127,7 +128,7 @@ class CoupangCrawler(BaseCrawler):
                                 date_div = article_element.find_element(
                                     By.XPATH, "./div[1]/div[3]/div[2]"
                                 )
-                                date_text = date_div.text.strip()
+                                date_text = date_div.text.strip().encode('utf-8').decode('utf-8')
                             except:
                                 date_text = None
 
@@ -175,5 +176,12 @@ class CoupangCrawler(BaseCrawler):
 
     
     def save_to_database(self):
+        """
+        크롤링한 리뷰 데이터를 CSV 파일로 저장
+        """
         df_reviews = pd.DataFrame(self.all_reviews, columns=['review', 'rating', 'date'])
-        df_reviews.to_csv(os.path.join(self.output_dir, 'reviews_coupang.csv'), index=False, encoding='utf-8-sig')
+df_reviews.to_csv(
+    os.path.join(self.output_dir, 'coupang_review.csv'),
+    index=False,
+    encoding='utf-8-sig'  # Excel 호환성을 위해 BOM 포함
+)

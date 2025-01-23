@@ -79,13 +79,13 @@ class SsgCrawler(BaseCrawler):
                     review_section_button.click()
                     time.sleep(1)  # 스크롤 후 대기 시간 감소
                     
-                    soup = BeautifulSoup(driver.page_source, 'html.parser')
+                    soup = BeautifulSoup(driver.page_source, 'html.parser', from_encoding='utf-8')
                     data_rows = soup.find_all('li', class_='rvw_expansion_panel v2')
                     current_page = int(soup.find('div', class_ = 'rvw_paging').find('strong').text)
 
                     for data in data_rows:
                         rating = int(data.find('em').text) * 2
-                        comment = data.find('p', class_ = 'rvw_item_text').text
+                        comment = data.find('p', class_ = 'rvw_item_text').text.encode('utf-8').decode('utf-8')
                         date = data.find('div', class_ = 'rvw_item_label rvw_item_date').text
                         date = date.replace('.', '-')
                         self.reviews.append((rating, comment, date))
@@ -138,4 +138,6 @@ class SsgCrawler(BaseCrawler):
         크롤링 결과를 csv 파일로 저장
         """
         df = pd.DataFrame(self.reviews, columns=['rating', 'comment', 'date'])
-        df.to_csv(os.path.join(self.output_dir, 'reviews_ssg.csv'), index=True)
+        df.to_csv(os.path.join(self.output_dir, 'reviews_ssg.csv'), 
+                 index=True, 
+                 encoding='utf-8-sig')  # UTF-8 with BOM for Excel compatibility
