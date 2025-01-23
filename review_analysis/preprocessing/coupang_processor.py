@@ -1,7 +1,7 @@
 from review_analysis.preprocessing.base_processor import BaseDataProcessor
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+import seaborn as sns  # type: ignore
 import re
 from typing import Any
 from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
