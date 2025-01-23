@@ -14,7 +14,7 @@ plot 디렉토리 사진들에 대한 설명
     
 - 홈플러스: [https://mfront.homeplus.co.kr/item?itemNo=120074651&storeType=HYPER&storeId&optNo](홈플러스)
 
-    - 리뷰 수: / 97,947개
+    - 리뷰 수: 1,500개 / 97,947개
 
 - SSG: [https://www.ssg.com/item/itemView.ssg?itemId=0000008333648&siteNo=6001&salestrNo=2037](SSG)
 
