@@ -181,4 +181,4 @@ class CoupangCrawler(BaseCrawler):
     
     def save_to_database(self):
         df_reviews = pd.DataFrame(self.all_reviews, columns=['review', 'rating', 'date'])
-        df_reviews.to_csv('coupang_review.csv', index=False, encoding='utf-8-sig')
+        df_reviews.to_csv(os.path.join(self.output_dir, 'reviews_coupang.csv'), index=False, encoding='utf-8-sig')
