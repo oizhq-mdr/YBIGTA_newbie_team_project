@@ -52,21 +52,36 @@ python -m review_analysis.preprocessing.main -a
 
 ## 쿠팡
 
+![coupang_output](https://github.com/user-attachments/assets/43c07cf2-f653-4574-9c0a-2c211cb1a58d)
+
 - (전처리 이후) 별점 분포
 - (전처리 이후) 길이 분포
 - (전처리 이후) 날짜 분포
-- 토픽모델링 결과
+  
+LDA 토픽모델링 결과
+![coupang_lda](https://github.com/user-attachments/assets/f1ded55c-1117-4ff0-b40f-1b2e55da0963)
+
 
 ## 홈플러스
 
+![homeplus_output](https://github.com/user-attachments/assets/31d1bc1a-7c60-4489-b241-de16bdb39215)
+
 - (전처리 이후) 별점 분포
 - (전처리 이후) 길이 분포
 - (전처리 이후) 날짜 분포
-- 토픽모델링 결과
+
+- LDA 토픽모델링 결과
+![homeplus_lda](https://github.com/user-attachments/assets/38902ce8-40b1-43cc-bdab-099af89b75ed)
+
 
 ## SSG
 
+![ssg_output](https://github.com/user-attachments/assets/706fd2f3-cbb4-4611-958a-29ee4c99b08d)
+
 - (전처리 이후) 별점 분포
 - (전처리 이후) 길이 분포
 - (전처리 이후) 날짜 분포
-- 토픽 모델링 결과
+
+- LDA 토픽 모델링 결과
+- ![ssg_lda](https://github.com/user-attachments/assets/01bff19f-69ec-4e6c-8f94-c0974409e026)
+
