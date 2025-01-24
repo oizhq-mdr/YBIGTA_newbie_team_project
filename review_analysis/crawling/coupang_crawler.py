@@ -86,7 +86,7 @@ class CoupangCrawler(BaseCrawler):
                     page_btn_xpath = (
                         "/html/body/div[2]/section/div[2]/div[2]/div[7]/ul[2]/li[2]/"
                         f"div/div[6]/section[4]/div[3]/button[{page_btn_idx}]"
-                    )
+                    ).encode('utf-8').decode('utf-8')
                     page_button = self.driver.find_element(By.XPATH, page_btn_xpath)
                     page_button.click()
                     time.sleep(2)  # 페이지 전환 대기
