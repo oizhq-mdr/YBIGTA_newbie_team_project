@@ -88,7 +88,7 @@ class CoupangProcessor(BaseDataProcessor):
 
         self.df = self.df[self.df['word_count'] > 0]
 
-        print("Feature engineering completed.")
+        print("Feature engineering completed coupang.")
 
 
 
