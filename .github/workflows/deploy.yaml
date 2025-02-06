@@ -35,17 +35,15 @@ jobs:
 
     steps:
       - name: Configure SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} '
+          ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} '
             sudo docker stop my-container || true
             sudo docker rm my-container || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
