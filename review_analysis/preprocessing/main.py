@@ -16,8 +16,9 @@ PREPROCESS_CLASSES: Dict[str, Type[BaseDataProcessor]] = {
     # key는 크롤링한 csv파일 이름으로 적어주세요! ex. reviews_naver.csv -> reviews_naver
 }
 
-# REVIEW_COLLECTIONS = glob.glob(os.path.join("..","..","database", "reviews_*.csv"))
-REVIEW_COLLECTIONS = glob.glob(os.path.join("database", "reviews_*.csv"))
+REVIEW_COLLECTIONS = glob.glob(os.path.join("..","..","database", "reviews_*.csv"))
+# REVIEW_COLLECTIONS = glob.glob(os.path.join("../../database", "reviews_*.csv"))
+# REVIEW_COLLECTIONS = glob.glob(os.path.join("database", "reviews_*.csv"))
 print("REVIEW_COLLECTIONS", len(REVIEW_COLLECTIONS))
 
 
