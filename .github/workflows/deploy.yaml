@@ -35,14 +35,17 @@ jobs:
 
     steps:
       - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.EC2_HOST }}
         run: |
           mkdir -p ~/.ssh
-          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${SSH_KEY}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           eval $(ssh-agent -s)
-          ssh-add ~/.ssh/id_rsa
-          ssh-keyscan -t rsa ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-          
+          ssh-add ~/.ssh/id_rsa || (echo "Failed to add SSH key" && cat ~/.ssh/id_rsa && exit 1)
+          ssh-keyscan -t rsa ${SSH_HOST} >> ~/.ssh/known_hosts
+
       - name: Debug SSH Key (safely)
         run: |
           echo "First few lines of SSH key (safely):"
@@ -52,15 +55,14 @@ jobs:
           echo "Key format check:"
           ssh-keygen -l -f ~/.ssh/id_rsa || echo "Invalid key format"
 
-      - name: Test SSH Connection
-        run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} 'echo "Connection test successful"'
-
       - name: Deploy to EC2
+        env:
+          SSH_HOST: ${{ secrets.EC2_HOST }}
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@${SSH_HOST} << 'EOF'
             sudo docker stop my-container || true
             sudo docker rm my-container || true
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
-            sudo docker run -d -p 8000:8000 --name my-container ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
+            sudo docker pull ${DOCKER_USER}/ybigta_newbie_team_project:latest
+            sudo docker run -d -p 8000:8000 --name my-container ${DOCKER_USER}/ybigta_newbie_team_project:latest
           EOF
