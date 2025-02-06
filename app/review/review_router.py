@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database.mongodb_connection import preprocess_reviews
 
-user = APIRouter(prefix="/api/user")
+review = APIRouter(prefix="/api/review")
 
 @review.post("/review/preprocess/{site_name}")
 async def preprocess_site_reviews(site_name: str):
