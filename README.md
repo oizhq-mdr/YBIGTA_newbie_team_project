@@ -187,7 +187,7 @@ MVC(Model-View-Controller) 패턴은 애플리케이션을 세 가지 주요 컴
 ![login_api.png](<aws/login_api.png>)
 ![register_api.png](<aws/register_api.png>)
 ![update_password_api.png](<aws/update_password_api.png>)
-![github_actions.png](<aws/github_actions.png>) 
+![github_action.png](<aws/github_action.png>) 
 
 
 
