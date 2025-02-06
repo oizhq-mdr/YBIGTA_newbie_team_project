@@ -42,6 +42,15 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_rsa
           ssh-keyscan -t rsa ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          
+      - name: Debug SSH Key (safely)
+        run: |
+          echo "First few lines of SSH key (safely):"
+          head -n 1 ~/.ssh/id_rsa
+          echo "File permissions:"
+          ls -l ~/.ssh/id_rsa
+          echo "Key format check:"
+          ssh-keygen -l -f ~/.ssh/id_rsa || echo "Invalid key format"
 
       - name: Test SSH Connection
         run: |
