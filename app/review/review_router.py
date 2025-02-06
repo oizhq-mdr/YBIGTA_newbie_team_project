@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from database.mongodb_connection import mongo_db
 import importlib
 
-review = APIRouter(prefix="/api/review")
+review = APIRouter(prefix="/api")
 
 @review.post("/review/preprocess/{site_name}")
 async def preprocess_reviews(site_name: str):
