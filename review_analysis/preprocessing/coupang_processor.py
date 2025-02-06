@@ -1,7 +1,7 @@
 from review_analysis.preprocessing.base_processor import BaseDataProcessor
 import pandas as pd
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 import seaborn as sns  # type: ignore
 
 from kiwipiepy import Kiwi # type: ignore
@@ -55,8 +55,9 @@ class CoupangProcessor(BaseDataProcessor):
         print("Preprocessing completed.")
         
 
+        # 단어 수 계산을 위한 새로운 컬럼 추가
+        self.df['word_count'] = self.df['review'].apply(lambda x: len(x.split()))
 
-    
     def feature_engineering(self):
         """
         특징 엔지니어링
@@ -87,7 +88,7 @@ class CoupangProcessor(BaseDataProcessor):
 
         self.df = self.df[self.df['word_count'] > 0]
 
-        print("Feature engineering completed.")
+        print("Feature engineering completed coupang.")
 
 
 

@@ -86,7 +86,7 @@ class CoupangCrawler(BaseCrawler):
                     page_btn_xpath = (
                         "/html/body/div[2]/section/div[2]/div[2]/div[7]/ul[2]/li[2]/"
                         f"div/div[6]/section[4]/div[3]/button[{page_btn_idx}]"
-                    )
+                    ).encode('utf-8').decode('utf-8')
                     page_button = self.driver.find_element(By.XPATH, page_btn_xpath)
                     page_button.click()
                     time.sleep(2)  # 페이지 전환 대기
@@ -181,8 +181,8 @@ class CoupangCrawler(BaseCrawler):
         크롤링한 리뷰 데이터를 CSV 파일로 저장
         """
         df_reviews = pd.DataFrame(self.all_reviews, columns=['review', 'rating', 'date'])
-df_reviews.to_csv(
-    os.path.join(self.output_dir, 'reviews_coupang.csv'),
-    index=False,
-    encoding='utf-8-sig'  # Excel 호환성을 위해 BOM 포함
-)
+        df_reviews.to_csv(
+            os.path.join(self.output_dir, 'reviews_coupang.csv'),
+            index=False,
+            encoding='utf-8-sig'  # Excel 호환성을 위해 BOM 포함
+        )
