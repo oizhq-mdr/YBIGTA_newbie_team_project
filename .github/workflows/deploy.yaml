@@ -34,16 +34,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to AWS EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: |
-            ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with SSH
+        run: |
+          ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} '
             sudo docker stop my-container || true
             sudo docker rm my-container || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
             sudo docker run -d -p 8000:8000 --name my-container ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
+          '
