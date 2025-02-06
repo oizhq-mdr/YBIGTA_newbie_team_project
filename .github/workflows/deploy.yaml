@@ -39,8 +39,8 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
-          echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
+          echo "-----BEGIN OPENSSH PRIVATE KEY-----\n" > ~/.ssh/id_rsa
+          echo "$SSH_PRIVATE_KEY\n" >> ~/.ssh/id_rsa
           echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           eval $(ssh-agent -s)
