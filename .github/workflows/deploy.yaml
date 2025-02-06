@@ -35,16 +35,21 @@ jobs:
 
     steps:
       - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
+          echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
+          echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_rsa
           ssh-keyscan -t rsa ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Check SSH connection
-        run: ssh -o StrictHostKeyChecking=no -vvv ubuntu@${{ secrets.EC2_HOST }} 'echo "SSH connection successful"'
+      - name: Test SSH Connection
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} 'echo "Connection test successful"'
 
       - name: Deploy to EC2
         run: |
