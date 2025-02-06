@@ -60,7 +60,7 @@ jobs:
           SSH_HOST: ${{ secrets.EC2_HOST }}
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${SSH_HOST} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@${SSH_HOST} << "EOF"
             sudo docker stop my-container || true
             sudo docker rm my-container || true
             sudo docker pull ${DOCKER_USER}/ybigta_newbie_team_project:latest
