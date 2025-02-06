@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter, HTTPException
 from database.mongodb_connection import mongo_db
 import importlib
@@ -10,6 +11,7 @@ async def preprocess_reviews(site_name: str):
     """
     특정 사이트(site_name)의 리뷰 데이터를 MongoDB에서 가져와 전처리하고, 다시 저장하는 API
     """
+
     collection = mongo_db["crawling_data"]
 
     try:
@@ -33,3 +35,4 @@ async def preprocess_reviews(site_name: str):
             processed_count += 1
 
     return {"message": f"{processed_count} reviews processed and updated for {site_name}"}
+
