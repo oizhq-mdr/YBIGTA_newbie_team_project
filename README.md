@@ -176,4 +176,4 @@ MVC(Model-View-Controller) 패턴은 애플리케이션을 세 가지 주요 컴
 3. `user_router`가 적절한 엔드포인트를 `user_service`로 전달
 4. `user_service`가 `user_repository`를 통해 DB 작업 수행
 5. `user_service`의 처리 결과를 바탕으로 `user_router`가 응답 생성
-6. 생성된 응답을 View(HTML)로 전달!
+6. 생성된 응답을 View(HTML)로 전달
