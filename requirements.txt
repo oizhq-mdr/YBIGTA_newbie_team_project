@@ -17,3 +17,7 @@ starlette==0.41.3
 tomli==2.2.1
 typing_extensions==4.12.2
 uvicorn==0.34.0
+pytest==7.1.2        # Pytest 버전은 상황에 맞춰 조정
+httpx==0.24.1        # Starlette TestClient에 필요한 라이브러리
+sqlalchemy==2.0.20   # ORM 사용에 필요한 라이브러리 (버전은 예시)
+python-dotenv==0.19.1
