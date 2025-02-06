@@ -1,7 +1,8 @@
 from fastapi import APIRouter
-from app.database.mongodb_connection import preprocess_reviews
+from database.mongodb_connection import preprocess_reviews
 
-review = APIRouter()
+# 올바른 라우터 정의
+review = APIRouter(prefix="/api")
 
 @review.post("/review/preprocess/{site_name}")
 async def preprocess_site_reviews(site_name: str):
