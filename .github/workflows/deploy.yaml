@@ -39,13 +39,18 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -t rsa ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy with SSH
+      - name: Check SSH connection
+        run: ssh -o StrictHostKeyChecking=no -vvv ubuntu@${{ secrets.EC2_HOST }} 'echo "SSH connection successful"'
+
+      - name: Deploy to EC2
         run: |
-          ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} '
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             sudo docker stop my-container || true
             sudo docker rm my-container || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
             sudo docker run -d -p 8000:8000 --name my-container ${{ secrets.DOCKER_USERNAME }}/ybigta_newbie_team_project:latest
-          '
+          EOF
