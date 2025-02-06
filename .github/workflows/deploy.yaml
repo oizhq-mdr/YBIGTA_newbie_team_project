@@ -30,7 +30,7 @@ jobs:
 
   deploy-to-ec2:
     name: Deploy to EC2
-    needs: build-and-push  # Docker Hub Push 완료 후 실행
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
@@ -40,6 +40,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script_stop: true
           script: |
             sudo docker stop my-container || true
             sudo docker rm my-container || true
