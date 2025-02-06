@@ -39,9 +39,9 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key: |
+            ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          script_stop: true
           script: |
             sudo docker stop my-container || true
             sudo docker rm my-container || true
