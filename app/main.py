@@ -12,7 +12,7 @@ from app.config import PORT
 from database.mysql_connection import engine, Base
 from app.user.user_repository import UserORM 
 
-Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 
@@ -26,5 +26,6 @@ app.include_router(review)
 
 
 if __name__ == "__main__":
+    Base.metadata.create_all(bind=engine)
     uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
 
