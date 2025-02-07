@@ -5,12 +5,13 @@ from typing import Dict, Optional
 from app.user.user_schema import User as UserSchema
 from app.config import USER_DATA
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session #type: ignore
 #from app.user.user_model import User as UserORM  # ORM 모델
 
 from sqlalchemy.orm import Session
-from sqlalchemy import Column, Integer, String
-from database.mysql_connection import Base
+from sqlalchemy import Column, Integer, String #type: ignore
+from sqlalchemy.orm import declarative_base
+Base = declarative_base()
 
 # ORM 모델 정의 (원래 model.py에 정의하던 내용)
 class UserORM(Base):
@@ -79,7 +80,7 @@ class UserRepository:
             username=user_orm.username
         )
 
-    def delete_user(self, user: UserSchema) -> UserSchema:
+    def delete_user(self, user: UserSchema) -> Optional[UserSchema]:
         """
         Pydantic User 정보를 받아, DB에서 해당 사용자를 삭제한다.
         """
